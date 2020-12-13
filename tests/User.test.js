@@ -41,7 +41,7 @@ describe('Test Endpoint POST users/login', () => {
     request(app)
     .post('users/login')
     .send({
-      email: 'adminn@mail.com',
+      email: 'admin@mail.com',
       password: '12345'
     })
     .then(response => {
