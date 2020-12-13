@@ -59,6 +59,22 @@ class UserController {
         })
     }
   }
+
+  static update(req, res, next){
+    const idUser = req.params.id;
+    const obj = {
+      name: req.body.name,
+      profile_picture: req.body.profile_picture
+    }
+
+    User.update(obj, { where: {'id': idUser}})
+      .then(data => {
+        res.status(201).json(data)
+      })
+      .catch(err => {
+        res.status(500).json(err)
+      })
+  }
 }
 
 module.exports = UserController
