@@ -51,7 +51,7 @@ class UserController {
               email: data.email
             })
             // console.log(access_token, "<<<<<<<<<< acesstoken")
-            res.status(200).json({ access_token : access_token, role : data.role });
+            res.status(200).json({ access_token : access_token });
           }
         })
         .catch(err => {
