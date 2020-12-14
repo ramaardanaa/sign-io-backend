@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { sequelize } = require('../models')
 // const { queryInterface } = sequelize
-const app;
+const app = require('../app');
 
 let access_token;
 
