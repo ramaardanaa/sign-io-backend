@@ -3,6 +3,7 @@ const app = require('../app');
 
 let token;
 let MemberId;
+let RoomsId;
 
 beforeAll((done) => {
   request(app)
@@ -14,6 +15,18 @@ beforeAll((done) => {
     .then(response => {
       const { body } = response;
       token = body.access_token;
+      return request(app)
+      .post('/rooms')
+      .set({
+        access_token: token
+      })
+      .send({
+        name: "private rooms"
+      })
+    })
+    .then(response => {
+      const { body } = response;
+      RoomsId = body.id;
       done()
     })
 })
@@ -52,7 +65,7 @@ describe('Test Endpoint GET /members', () => {
 
 describe('Test Endpoint POST /members', () => {
   //Post Members Success
-  it('test post members Success', (done) => {
+  it.only('test post members Success', (done) => {
     request(app)
       .post('/members')
       .set({
@@ -60,12 +73,14 @@ describe('Test Endpoint POST /members', () => {
       })
       .send({
         UserId: "1",
-        RoomId: "1"
+        RoomId: RoomsId
       })
       .then(res => {
         const { body, status } = res;
+        console.log(body, "body <<<<<<")
 
         MemberId = body.id;
+        console.log(MemberId, "<<<< member Id")
 
         expect(status).toEqual(201);
         expect(body).toHaveProperty("UserId", "1")

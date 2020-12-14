@@ -95,7 +95,7 @@ describe('Test endpoint /rooms', () => {
     })
   })
 
-  describe.only('Test endpoint DELETE', () => {
+  describe('Test endpoint DELETE', () => {
     it('Test delete rooms success', (done) => {
       request(app)
         .delete('/rooms/1')

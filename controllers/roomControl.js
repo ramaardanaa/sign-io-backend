@@ -23,6 +23,7 @@ class RoomController {
     Room.create(obj)
       .then(data => {
         res.status(201).json({
+          id: data.id,
           name: data.name,
           UserId: data.UserId
         })

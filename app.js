@@ -10,12 +10,12 @@ const router = require('./routes');
 const cors = require('cors');
 
 //body parser
-app.use(errorHandler());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(router);
+app.use(errorHandler());
 
 // app.listen(port, () => {
 //   console.log(`http://localhost:3000`);
