@@ -6,6 +6,7 @@ class UserController {
 
   static register(req, res, next){
     const obj = {
+      name: req.body.name,
       email: req.body.email,
       password: req.body.password
     }
@@ -17,15 +18,15 @@ class UserController {
           'email': data.email, 
         });
       })
-      .catch(err => {
-        // next({ msg : err, status : 500});
-        res.status(500).json({err});
+      .catch(errors => {
+        // console.log(errors.name, " <<<<<   ini error")
+        next(errors);
+        // res.status(500).json({err});
       })
   }
 
   static login(req, res, next){
     const payload = {
-      name: req.body.name,
       email: req.body.email,
       password: req.body.password
     }
@@ -38,19 +39,17 @@ class UserController {
         where: {email : payload.email}
       })
         .then(data => {
-          console.log(data);
           if(!data) {
             // next({ msg : 'wrong email/password', status : 401});   
             res.status(401).json({ msg : "wrong email/password"});
-          } else if(!comparePass(payload.password, data.password)){
+          } else if(!comparePass(payload.password, data.dataValues.password)){
             // next({ msg : 'wrong email/password', status : 401});
             res.status(401).json({ msg : "wrong email/password"});
           } else {
             const access_token = signToken({
-              id: data.id,
-              email: data.email
+              id: data.dataValues.id,
+              email: data.dataValues.email
             })
-            // console.log(access_token, "<<<<<<<<<< acesstoken")
             res.status(200).json({ access_token : access_token });
           }
         })

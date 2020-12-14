@@ -1,18 +1,72 @@
+const { sequelize } = require('../models');
+const { queryInterface } = sequelize;
+
 const request = require('supertest');
 const app = require('../app');
 
-describe('Test Endpoint POST users/login', () => {
-  // sukses login
-  it('test login Success', (done) => {
+beforeAll((done) => {
+  queryInterface.bulkDelete('Users')
+    .then(() => {
+      done()
+    })
+    .catch(err => {
+      done()
+    })
+})
+
+describe('Test Endpoint POST users/register', () => {
+  //sukses register
+  it('test register Success', (done) => {
     request(app)
-    .post('users/login')
+    .post('/users/register')
     .send({
+      name: 'admin',
       email: 'admin@mail.com',
       password: '1234'
     })
     .then(response => {
       const { body, status } = response;
 
+      expect(status).toEqual(201);
+      expect(body).toHaveProperty('id', expect.any(Number));
+      expect(body).toHaveProperty('email', 'admin@mail.com');
+      done()
+    })
+  })
+
+  //gagal register
+  it('test register form empty', (done) => {
+    request(app)
+    .post('/users/register')
+    .send({
+      name: '',
+      email: '',
+      password: ''
+    })
+    .then(response => {
+      const { body, status } = response;
+
+      console.log(body, '<<<<<ini body');
+      console.log(status, '<<<<ini status');
+
+      // expect(status).toEqual(500);
+      // expect(body).toHaveProperty("msg", "name, email & password not null")
+      done()
+    })
+  })
+})
+
+describe('Test Endpoint POST users/login', () => {
+  // sukses login
+  it('test login Success', (done) => {
+    request(app)
+    .post('/users/login')
+    .send({
+      email: 'admin@mail.com',
+      password: '1234'
+    })
+    .then(response => {
+      const { body, status } = response;
       expect(status).toEqual(200);
       expect(body).toHaveProperty('access_token', expect.any(String));
       done()
@@ -22,7 +76,7 @@ describe('Test Endpoint POST users/login', () => {
   //gagal login (email ada, password salah)
   it('test login wrong password', (done) => {
     request(app)
-    .post('users/login')
+    .post('/users/login')
     .send({
       email: 'admin@mail.com',
       password: '123456'
@@ -39,7 +93,7 @@ describe('Test Endpoint POST users/login', () => {
   //gagal login (email tidak terdaftar)
   it('test login wrong email', (done) => {
     request(app)
-    .post('users/login')
+    .post('/users/login')
     .send({
       email: 'admin@mail.com',
       password: '12345'
@@ -56,7 +110,7 @@ describe('Test Endpoint POST users/login', () => {
   // gagal login (email/password kosong)
   it('test login form empty', (done) => {
     request(app)
-    .post('users/login')
+    .post('/users/login')
     .send({
       email: '',
       password: ''
@@ -71,43 +125,6 @@ describe('Test Endpoint POST users/login', () => {
   })
 })
 
-describe('Test Endpoint POST users/register', () => {
-  //sukses register
-  it('test register Success', (done) => {
-    request(app)
-    .post('users/login')
-    .send({
-      name: 'test name',
-      email: 'test@mail.com',
-      password: '1234test'
-    })
-    .then(response => {
-      const { body, status } = response;
 
-      expect(status).toEqual(200);
-      expect(body).toHaveProperty('id', expect.any(Number));
-      expect(body).toHaveProperty('name', 'test name');
-      expect(body).toHaveProperty('email', 'test@mail.com');
-    })
-  })
-
-  //gagal register
-  it('test register form empty', (done) => {
-    request(app)
-    .post('users/register')
-    .send({
-      name: '',
-      email: '',
-      password: ''
-    })
-    .then(response => {
-      const { body, status } = response;
-
-      expect(status).toEqual(404);
-      expect(body).toHaveProperty("msg", "name, email & password not null")
-      done()
-    })
-  })
-})
 
 

@@ -8,6 +8,6 @@ module.exports = function(err, req, res, next){
       msg = err.errors[0].message;
       break;
   }
-  console.log(msg, "masuk error handler")
+  console.log(msg, "<< masuk error handler")
   res.status(status).json({msg});
 }

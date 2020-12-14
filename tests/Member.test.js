@@ -1,6 +1,3 @@
-const { sequelize } = require('../models');
-const { queryInterface } = sequelize;
-
 const request = require('supertest');
 const app = require('../app');
 
@@ -9,13 +6,13 @@ let MemberId;
 
 beforeAll((done) => {
   request(app)
-    .post('users/login')
+    .post('/users/login')
     .send({
       email: 'admin@mail.com',
       password: '1234'
     })
-    .then(res => {
-      const { body } = res;
+    .then(response => {
+      const { body } = response;
       token = body.access_token;
       done()
     })
@@ -78,7 +75,7 @@ describe('Test Endpoint POST /members', () => {
   })
 
   //Post Member Failed
-  it('test post members Success', (done) => {
+  it('test post members Failed', (done) => {
     request(app)
       .post('/members')
       .set({
@@ -91,7 +88,7 @@ describe('Test Endpoint POST /members', () => {
       .then(res => {
         const { body, status } = res;
 
-        expect(status).toEqual(401);
+        expect(status).toEqual(500);
         expect(body).toHaveProperty('msg', 'Authentication Failed');
         done()
       })
@@ -111,7 +108,7 @@ describe('Test Endpoint DELETE /members/:id', () => {
         UserId: "1",
         RoomId: "1"
       })
-      .then(res => {
+      .then(response => {
       const { body, status } = response;
       
       expect(status).toEqual(200);
@@ -131,7 +128,7 @@ describe('Test Endpoint DELETE /members/:id', () => {
         UserId: "1",
         RoomId: "1"
       })
-      .then(res => {
+      .then(response => {
       const { body, status } = response;
       
       expect(status).toEqual(401);
