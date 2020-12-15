@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Room.hasMany(models.Member)
       Room.belongsTo(models.User)
+      Room.hasMany(models.Chat)
     }
   };
   Room.init({
