@@ -24,6 +24,6 @@ router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 router.put('/edit/:id',
 //  upload.single('file'),
- UserController.update)
+UserController.update)
 
 module.exports = router;

@@ -26,14 +26,15 @@ class UserController {
     const obj = {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      profile_picture: `https://ui-avatars.com/api/?name=${req.body.name.trim()}&rounded=true&background=random`
     }
 
     User.create(obj)
       .then(data => {
         res.status(201).json({ 
-          'id' : data.id, 
-          'email': data.email, 
+          id: data.id, 
+          email: data.email, 
         });
       })
       .catch(errors => {

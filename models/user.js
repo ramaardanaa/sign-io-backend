@@ -59,7 +59,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password is required'
         }
       }
-    }
+    },
+    profile_picture: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
