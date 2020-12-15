@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+    code: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Room',
