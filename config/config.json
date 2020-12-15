@@ -1,14 +1,14 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "gong1007",
+    "username": "yosiaelnino",
+    "password": "",
     "database": "db-sign-io",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "gong1007",
+    "username": "yosiaelnino",
+    "password": "",
     "database": "db-sign-io-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
