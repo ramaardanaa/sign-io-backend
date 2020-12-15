@@ -44,7 +44,7 @@ class RoomController {
         res.status(200).json({name : data.name, msg : 'Room has been deleted'});
       })
       .catch(err => {
-        res.status(500).json({msg: err.errors[0].message})
+        res.status(500).json({msg: err.errors[0].message});
         // next(err)
       })
 
