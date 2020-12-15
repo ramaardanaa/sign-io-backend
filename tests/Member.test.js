@@ -58,6 +58,8 @@ describe('Test Endpoint GET /members', () => {
 
         console.log(body, '<<<<< ini body');
         console.log(status, '<<<< ini status');
+        expect(status).toEqual(401);
+        expect(body).toHaveProperty('msg', 'Authentication Failed');
         done()
       })
   })
@@ -77,7 +79,6 @@ describe('Test Endpoint POST /members', () => {
       })
       .then(res => {
         const { body, status } = res;
-        console.log(body, "body <<<<<<")
 
         MemberId = body.id;
         console.log(MemberId, "<<<< member Id")
