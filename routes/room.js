@@ -1,4 +1,4 @@
-const RoomController = require('../controllers/roomContol');
+const RoomController = require('../controllers/roomControl');
 
 const router = require('express').Router();
 
