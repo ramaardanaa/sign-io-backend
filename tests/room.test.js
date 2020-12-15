@@ -93,9 +93,12 @@ describe('Test endpoint /rooms', () => {
         .set({
           access_token: token
         })
+        .send({
+          name: ""
+        })
         .then(response => {
           const { body, status } = response
-          expect(status).toBe(400)
+          expect(status).toBe(500)
           expect(body).toHaveProperty('msg', 'Name is required')
           done()
         })

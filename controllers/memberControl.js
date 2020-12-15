@@ -8,8 +8,8 @@ class MemberController {
         res.status(200).json(data);
       })
       .catch(err => {
-        res.status(500).json(err);
-        // next(err);
+        // res.status(500).json(err);
+        next(err);
       })
   }
 
@@ -21,10 +21,12 @@ class MemberController {
 
     Member.create(obj)
       .then(data => {
-        res.status(201).json(data)
+        res.status(201).json(data);
       })
       .catch(err => {
-        res.status(500).json(err)
+        // res.status(500).json(err)
+        next(err);
+
       })
   }
 
@@ -38,8 +40,8 @@ class MemberController {
         res.status(200).json({ msg : 'Delete Success'});
       })
       .catch(err => {
-        res.status(500).json({msg: err.errors[0].message})
-        // next(err)
+        // res.status(500).json({msg: err.errors[0].message})
+        next(err);
       })
   }
 }

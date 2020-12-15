@@ -99,7 +99,7 @@ describe('Test Endpoint POST users/login', () => {
       const { body, status } = response;
 
       expect(status).toEqual(401);
-      expect(body).toHaveProperty("msg", "Wrong email or password")
+      expect(body).toHaveProperty("msg", "wrong email/password")
       done()
     })
   })

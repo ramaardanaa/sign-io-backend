@@ -24,7 +24,7 @@ class FriendController {
         res.status(201).json(data)
       })
       .catch(err => {
-        next(err)
+        next({msg: err.errors[0].message});
       })
   }
 

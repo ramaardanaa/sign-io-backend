@@ -3,7 +3,8 @@ const app = require('../app');
 
 let token;
 let MemberId;
-let RoomsId;
+let UserId;
+let RoomId;
 
 beforeAll((done) => {
   request(app)
@@ -15,20 +16,18 @@ beforeAll((done) => {
     .then(response => {
       const { body } = response;
       token = body.access_token;
-      return request(app)
-      .post('/rooms')
-      .set({
+      UserId = body.id;
+      return request(app).post('/rooms').set({
         access_token: token
-      })
-      .send({
-        name: "private rooms"
+      }).send({
+        name: "rooms private"
       })
     })
-    .then(response => {
-      const { body } = response;
-      RoomsId = body.id;
+    .then(res => {
+      RoomId = res.body.id
       done()
     })
+    .catch(console.log)
 })
 
 describe('Test Endpoint GET /members', () => {
@@ -42,9 +41,9 @@ describe('Test Endpoint GET /members', () => {
       })
       .then(res => {
         const { body, status } = res;
+        expect(status).toEqual(200);
 
-        console.log(body, '<<<<< ini body');
-        console.log(status, '<<<< ini status');
+        console.log(body, '<<<<< ini body get');
         done()
       })
   })
@@ -56,8 +55,6 @@ describe('Test Endpoint GET /members', () => {
       .then(res => {
         const { body, status } = res;
 
-        console.log(body, '<<<<< ini body');
-        console.log(status, '<<<< ini status');
         expect(status).toEqual(401);
         expect(body).toHaveProperty('msg', 'Authentication Failed');
         done()
@@ -68,24 +65,23 @@ describe('Test Endpoint GET /members', () => {
 describe('Test Endpoint POST /members', () => {
   //Post Members Success
   it('test post members Success', (done) => {
+    console.log(UserId, "<<<< UserId")
     request(app)
       .post('/members')
       .set({
         access_token: token
       })
       .send({
-        UserId: "1",
-        RoomId: RoomsId
+        UserId: UserId,
+        RoomId: RoomId
       })
       .then(res => {
         const { body, status } = res;
-
         MemberId = body.id;
-        console.log(MemberId, "<<<< member Id")
 
         expect(status).toEqual(201);
-        expect(body).toHaveProperty("UserId", "1")
-        expect(body).toHaveProperty("RoomId", "1")
+        expect(body).toHaveProperty("UserId", expect.any(Number))
+        expect(body).toHaveProperty("RoomId", expect.any(Number))
         done()
       })
   })
@@ -98,13 +94,13 @@ describe('Test Endpoint POST /members', () => {
         access_token: ''
       })
       .send({
-        UserId: "1",
-        RoomId: "1"
+        UserId: UserId,
+        RoomId: RoomId
       })
       .then(res => {
         const { body, status } = res;
 
-        expect(status).toEqual(500);
+        expect(status).toEqual(401);
         expect(body).toHaveProperty('msg', 'Authentication Failed');
         done()
       })
@@ -119,10 +115,6 @@ describe('Test Endpoint DELETE /members/:id', () => {
       .delete(`/members/${MemberId}`)
       .set({
         access_token: token
-      })
-      .send({
-        UserId: "1",
-        RoomId: "1"
       })
       .then(response => {
       const { body, status } = response;
@@ -139,10 +131,6 @@ describe('Test Endpoint DELETE /members/:id', () => {
       .delete(`/members/${MemberId}`)
       .set({
         access_token: ""
-      })
-      .send({
-        UserId: "1",
-        RoomId: "1"
       })
       .then(response => {
       const { body, status } = response;
