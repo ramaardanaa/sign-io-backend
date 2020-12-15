@@ -35,7 +35,7 @@ describe('Test Endpoint POST users/register', () => {
   })
 
   //gagal register
-  it('test register form empty', (done) => {
+  it.only('test register form empty', (done) => {
     request(app)
     .post('/users/register')
     .send({
