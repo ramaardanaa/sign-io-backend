@@ -7,6 +7,10 @@ module.exports = function(err, req, res, next){
       status = 400;
       msg = err.errors[0].message;
       break;
+    case 'email/password not null':
+      status = 404;
+      msg = 'email/password not null';
+      break;
   }
   console.log(msg, "<< masuk error handler")
   res.status(status).json({msg});

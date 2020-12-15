@@ -32,19 +32,19 @@ class UserController {
     }
 
     if(!payload.email && !payload.password) {
-      // next({ msg : 'email/password not null', status : 404});
-      res.status(404).json({msg : 'email/password not null'});
+      next({ msg : 'email/password not null', status : 404});
+      // res.status(404).json({msg : 'email/password not null'});
     } else {
       User.findOne({
         where: {email : payload.email}
       })
         .then(data => {
           if(!data) {
-            // next({ msg : 'wrong email/password', status : 401});   
-            res.status(401).json({ msg : "wrong email/password"});
+            next({ msg : 'wrong email/password', status : 401});   
+            // res.status(401).json({ msg : "wrong email/password"});
           } else if(!comparePass(payload.password, data.dataValues.password)){
-            // next({ msg : 'wrong email/password', status : 401});
-            res.status(401).json({ msg : "wrong email/password"});
+            next({ msg : 'wrong email/password', status : 401});
+            // res.status(401).json({ msg : "wrong email/password"});
           } else {
             const access_token = signToken({
               id: data.dataValues.id,

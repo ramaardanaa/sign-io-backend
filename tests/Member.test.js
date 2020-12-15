@@ -65,7 +65,7 @@ describe('Test Endpoint GET /members', () => {
 
 describe('Test Endpoint POST /members', () => {
   //Post Members Success
-  it.only('test post members Success', (done) => {
+  it('test post members Success', (done) => {
     request(app)
       .post('/members')
       .set({
