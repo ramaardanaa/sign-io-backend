@@ -46,11 +46,8 @@ describe('Test Endpoint POST users/register', () => {
     .then(response => {
       const { body, status } = response;
 
-      console.log(body, '<<<<<ini body');
-      console.log(status, '<<<<ini status');
-
-      // expect(status).toEqual(500);
-      // expect(body).toHaveProperty("msg", "name, email & password not null")
+      expect(status).toEqual(400);
+      expect(body).toHaveProperty("msg", "Name is required, Email is required, Password is required")
       done()
     })
   })
@@ -85,7 +82,7 @@ describe('Test Endpoint POST users/login', () => {
       const { body, status } = response;
 
       expect(status).toEqual(401);
-      expect(body).toHaveProperty("msg", "wrong email/password")
+      expect(body).toHaveProperty("msg", "Wrong email or password")
       done()
     })
   })
@@ -102,29 +99,8 @@ describe('Test Endpoint POST users/login', () => {
       const { body, status } = response;
 
       expect(status).toEqual(401);
-      expect(body).toHaveProperty("msg", "wrong email/password")
-      done()
-    })
-  })
-
-  // gagal login (email/password kosong)
-  it('test login form empty', (done) => {
-    request(app)
-    .post('/users/login')
-    .send({
-      email: '',
-      password: ''
-    })
-    .then(response => {
-      const { body, status } = response;
-
-      expect(status).toEqual(404);
-      expect(body).toHaveProperty("msg", "email/password not null")
+      expect(body).toHaveProperty("msg", "Wrong email or password")
       done()
     })
   })
 })
-
-
-
-

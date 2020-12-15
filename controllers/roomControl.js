@@ -9,6 +9,7 @@ class RoomController {
       })
       .catch(err => {
         next({msg: err.errors[0].message});
+        next(err)
       })
   }
 
@@ -29,6 +30,7 @@ class RoomController {
       })
       .catch(err => {
         next({msg: err.errors[0].message});
+        next(err)
       })
   }
 
@@ -43,6 +45,9 @@ class RoomController {
       })
       .catch(err => {
         next({msg: err.errors[0].message});
+        res.status(500).json({msg: err.errors[0].message});
+        // next(err)
+        next(err)
       })
 
   }
