@@ -1,24 +1,6 @@
 const { comparePass } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
 const { User } = require('../models');
-// const unggah = require('unggah')
-
-// const upload = unggah({
-//   limits: {
-//     fileSize: 1e6 
-//   },
-//   storage: storage 
-// })
-
-// const storage = unggah.s3({
-//   endpoint: 's3.ap-southeast-1.amazonaws.com',
-//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//   bucketName: 'sign-io',
-//   rename: (req, file) => {
-//     return `${Date.now()}-${file.originalname}`
-//   }
-// })
 
 class UserController {
 
@@ -50,7 +32,6 @@ class UserController {
 
     if(!payload.email && !payload.password) {
       next({ msg : 'email/password not null', status : 404});
-      // res.status(404).json({msg : 'email/password not null'});
     } else {
       User.findOne({
         where: {email : payload.email}
@@ -58,20 +39,23 @@ class UserController {
         .then(data => {
           if(!data) {
             next({ msg : 'wrong email/password', status : 401});   
-            // res.status(401).json({ msg : "wrong email/password"});
           } else if(!comparePass(payload.password, data.dataValues.password)){
             next({ msg : 'wrong email/password', status : 401});
-            // res.status(401).json({ msg : "wrong email/password"});
           } else {
             const access_token = signToken({
               id: data.dataValues.id,
               email: data.dataValues.email
             })
-            res.status(200).json({ access_token : access_token });
+            res.status(200).json({
+              id: data.id,
+              name: data.name,
+              profile_picture: data.profile_picture,
+              access_token
+            });
           }
         })
         .catch(err => {
-          res.status(500).json({err});
+          next(err)
         })
     }
     

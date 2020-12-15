@@ -1,4 +1,4 @@
-const { Room, Member, User } = require('../models')
+const { Room, Member, User, Chat } = require('../models')
 
 class RoomController {
 
@@ -74,6 +74,9 @@ class RoomController {
       include: [{
         model: Member,
         include: [User]
+      },{
+        model: Chat,
+        include: [User]
       }]
     }
     Room.findOne(option)
@@ -84,7 +87,8 @@ class RoomController {
         const response = {
           id: data.id,
           name: data.name,
-          members
+          members,
+          chats: data.Chats
         }
         res.status(200).json(response)
       })
