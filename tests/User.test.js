@@ -4,6 +4,8 @@ const { queryInterface } = sequelize;
 const request = require('supertest');
 const app = require('../app');
 
+let token;
+
 beforeAll((done) => {
   queryInterface.bulkDelete('Users')
     .then(() => {
@@ -63,6 +65,9 @@ describe('Test endpoint /users', () => {
       })
       .then(response => {
         const { body, status } = response;
+
+        token = body.access_token
+
         expect(status).toEqual(200);
         expect(body).toHaveProperty('access_token', expect.any(String));
         done()
@@ -121,7 +126,10 @@ describe('Test endpoint /users', () => {
   describe('Test Endpoint PUT users/edit/:id', () => {
     it('test update success', (done) => {
       request(app)
-        .put('/users/edit/1')
+        .put('/users/edit')
+        .set({
+          access_token: token
+        })
         .send({
           name: 'test',
           profile_picture: 'tesst.png'
@@ -135,7 +143,10 @@ describe('Test endpoint /users', () => {
 
     it('test update failed', (done) => {
       request(app)
-        .put('/users/edit/1')
+        .put('/users/edit')
+        .set({
+          access_token: token
+        })
         .send({
           name: '',
           profile_picture: ''
