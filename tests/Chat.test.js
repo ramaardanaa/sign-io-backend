@@ -48,6 +48,24 @@ describe('Test endpoint /chats', () => {
         .catch(err => console.log(err))
     })
 
+    it('Test create chats failed', (done) => {
+      request(app)
+        .post('/chats')
+        .set({
+          access_token: token
+        })
+        .send({
+          message: "haii",
+          RoomId: 0
+        })
+        .then(response => {
+          const { body, status } = response;
+          expect(status).toBe(500)
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+
     it('Test create chats no access token', (done) => {
       request(app)
         .post('/chats')

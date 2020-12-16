@@ -69,6 +69,21 @@ describe('Test endpoint /users', () => {
       })
     })
   
+    it('test login wrong email/password null', (done) => {
+      request(app)
+      .post('/users/login')
+      .send({
+        email: '',
+        password: ''
+      })
+      .then(response => {
+        const { body, status } = response;
+  
+        expect(status).toEqual(404);
+        expect(body).toHaveProperty("msg", "email/password not null")
+        done()
+      })
+    })
     
     it('test login wrong password', (done) => {
       request(app)
@@ -90,8 +105,8 @@ describe('Test endpoint /users', () => {
       request(app)
       .post('/users/login')
       .send({
-        email: 'admin@mail.com',
-        password: '12345'
+        email: 'adminnnn@mail.com',
+        password: '1234'
       })
       .then(response => {
         const { body, status } = response;
@@ -100,6 +115,37 @@ describe('Test endpoint /users', () => {
         expect(body).toHaveProperty("msg", "wrong email/password")
         done()
       })
+    })
+  })
+
+  describe('Test Endpoint PUT users/edit/:id', () => {
+    it('test update success', (done) => {
+      request(app)
+        .put('/users/edit/1')
+        .send({
+          name: 'test',
+          profile_picture: 'tesst.png'
+        })
+        .then(response => {
+          const { body, status } = response;
+          
+          done()
+        })
+    })
+
+    it('test update failed', (done) => {
+      request(app)
+        .put('/users/edit/1')
+        .send({
+          name: '',
+          profile_picture: ''
+        })
+        .then(response => {
+          const { body, status } = response;
+          expect(status).toEqual(400);
+          expect(body).toHaveProperty("msg", "Name is required")
+          done()
+        })
     })
   })
 })

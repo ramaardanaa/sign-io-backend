@@ -46,8 +46,24 @@ describe('Test Endpoint GET /members', () => {
       })
   })
 
+  it('test get members Success', (done) => {
+    request(app)
+      .get('/members')
+      .set({
+        access_token: token
+      })
+      .send({
+        bug: 'test'
+      })
+      .then(res => {
+        const { body, status } = res;
+        expect(status).toEqual(400);
+        done()
+      })
+  })
+
   // Get member failed
-  it('test get members Failed', (done) => {
+  it('test get members Failed no token', (done) => {
     request(app)
       .get('/members')
       .then(res => {
@@ -79,6 +95,25 @@ describe('Test Endpoint POST /members', () => {
         expect(status).toEqual(201);
         expect(body).toHaveProperty("UserId", expect.any(Number))
         expect(body).toHaveProperty("RoomId", expect.any(Number))
+        done()
+      })
+  })
+
+  it('test post members failed input null', (done) => {
+    request(app)
+      .post('/members')
+      .set({
+        access_token: token
+      })
+      .send({
+        UserId: '',
+        RoomId: ''
+      })
+      .then(res => {
+        const { body, status } = res;
+
+        expect(status).toEqual(500);
+        expect(body).toHaveProperty("msg", "internal server error")
         done()
       })
   })
@@ -118,6 +153,21 @@ describe('Test Endpoint DELETE /members/:id', () => {
       
       expect(status).toEqual(200);
       expect(body).toHaveProperty('msg', 'Delete Success');
+      done();
+      })
+  })
+
+  it('test delete member data failed', (done) => {
+    request(app)
+      .delete(`/members/X`)
+      .set({
+        access_token: token
+      })
+      .then(response => {
+      const { body, status } = response;
+      
+      expect(status).toEqual(500);
+      expect(body).toHaveProperty('msg', 'internal server error');
       done();
       })
   })

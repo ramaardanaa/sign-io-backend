@@ -42,8 +42,8 @@ io.on('connection', (socket) => {
 app.use(router);
 app.use(errorHandler);
 
-// app.listen(port, () => {
-//   console.log(`http://localhost:` + port);
-// });
+app.listen(port, () => {
+  console.log(`http://localhost:` + port);
+});
 
 module.exports = app;
