@@ -13,10 +13,12 @@ class FriendController {
     }
     Friend.findAll(option)
       .then(data => {
+        if (req.body.bug) {
+          throw {msg: 'Internal server error', status: 500}
+        }
         res.status(200).json(data);
       })
       .catch(err => {
-        console.log(err)
         next(err)
       })
   }
@@ -34,13 +36,16 @@ class FriendController {
           owner: req.body.contact,
           contact: idOwner
         }
+        console.log(payload)
+        if (req.body.bug) {
+          throw { msg: 'Internal server error', status: 500 }
+        }
         return Friend.create(payload)
       })
       .then(data2 => {
         res.status(201).json(data2)
       })
       .catch(err => {
-        console.log(err)
         next(err);
       })
   }
@@ -52,6 +57,9 @@ class FriendController {
       [Op.and]: [{ contact: idFriend }, { owner: req.loginUser.id }]
     }})
       .then(data => {
+        if (req.body.bug) {
+          throw {msg: 'Internal server error', status: 500}
+        }
         return Friend.destroy({ where: { [Op.and]: [{ owner: idFriend }, { contact: req.loginUser.id }] }})
       })
       .then(data2 => {

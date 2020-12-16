@@ -23,10 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 app.use(errorHandler);
 
-// io.on("connection", (socket) => {
-//   console.log("client connected on websocket");
-// });
-
 // real time web socket
 io.on('connection', (socket) => {
   console.log(socket.id, 'CONNECT CONNECT CONNECT')
@@ -49,9 +45,9 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`http://localhost:` + port);
-});
+// server.listen(port, () => {
+//   console.log(`http://localhost:` + port);
+// });
 
 // app.listen(port, () => {
 //   console.log(`http://localhost:` + port);
