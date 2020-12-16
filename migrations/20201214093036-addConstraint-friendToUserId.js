@@ -3,9 +3,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addConstraint ('Friends', {
-      fields: ['friend'],
+      fields: ['contact'],
       type: 'foreign key',
-      name: 'fkey_friendToUser',
+      name: 'fkey_contactToUser',
       references: {
         table: 'Users',
         field: 'id'
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint ('Friends', 'fkey_friendToUser')
+    await queryInterface.removeConstraint ('Friends', 'fkey_contactToUser')
 
     /**
      * Add reverting commands here.

@@ -11,7 +11,7 @@ module.exports = {
       owner: {
         type: Sequelize.INTEGER
       },
-      friend: {
+      contact: {
         type: Sequelize.INTEGER
       },
       createdAt: {
