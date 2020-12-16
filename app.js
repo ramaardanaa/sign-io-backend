@@ -17,9 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(router);
-app.use(errorHandler);
-
 //real time web socket
 io.on('connection', (socket) => {
   console.log(socket.id, 'CONNECT CONNECT CONNECT')
@@ -42,8 +39,11 @@ io.on('connection', (socket) => {
   });
 });
 
-// app.listen(port, () => {
-//   console.log(`http://localhost:` + port);
-// });
+app.use(router);
+app.use(errorHandler);
+
+app.listen(port, () => {
+  console.log(`http://localhost:` + port);
+});
 
 module.exports = app;
