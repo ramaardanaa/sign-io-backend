@@ -10,6 +10,12 @@ module.exports = {
       password: hashPass('1234'),
       createdAt: new Date(),
       updatedAt: new Date()
+    }, {
+      name: "admin2",
+      email: "admin2@mail.com",
+      password: hashPass('1234'),
+      createdAt: new Date(),
+      updatedAt: new Date()
     }])
     /**
      * Add seed commands here.

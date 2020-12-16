@@ -25,7 +25,6 @@ router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 router.put('/edit', authentication, UserController.update)
 router.post('/upload-picture', upload.single('file'), (req, res, next) => {
-  console.log('berhasil', req.body.file)
   res.status(201).json({
     file: req.body.file
   })
