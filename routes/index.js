@@ -4,9 +4,11 @@ const roomRoute = require("./room");
 const memberRoute = require("./member");
 const friendRoute = require("./friend");
 const speechRoute = require("./speech");
+const signRoute = require("./sign");
 const authentication = require("../middlewares/authentication");
 
 router.use("/speech", speechRoute);
+router.use("/sign", signRoute);
 router.use("/users", userRoute);
 router.use(authentication);
 router.use("/rooms", roomRoute);
