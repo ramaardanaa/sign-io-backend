@@ -24,7 +24,7 @@ class FriendController {
         res.status(201).json(data)
       })
       .catch(err => {
-        next({msg: err.errors[0].message});
+        next(err);
       })
   }
 
@@ -38,7 +38,7 @@ class FriendController {
         res.status(200).json({name : data.name, msg : 'Room has been deleted'});
       })
       .catch(err => {
-        res.status(500).json({msg: err.errors[0].message});
+        next(err)
       })
   }
 

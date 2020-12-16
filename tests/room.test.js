@@ -98,7 +98,7 @@ describe('Test endpoint /rooms', () => {
         })
         .then(response => {
           const { body, status } = response
-          expect(status).toBe(500)
+          expect(status).toBe(400)
           expect(body).toHaveProperty('msg', 'Name is required')
           done()
         })

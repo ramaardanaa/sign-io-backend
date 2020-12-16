@@ -42,8 +42,6 @@ describe('Test Endpoint GET /members', () => {
       .then(res => {
         const { body, status } = res;
         expect(status).toEqual(200);
-
-        console.log(body, '<<<<< ini body get');
         done()
       })
   })
@@ -65,7 +63,6 @@ describe('Test Endpoint GET /members', () => {
 describe('Test Endpoint POST /members', () => {
   //Post Members Success
   it('test post members Success', (done) => {
-    console.log(UserId, "<<<< UserId")
     request(app)
       .post('/members')
       .set({

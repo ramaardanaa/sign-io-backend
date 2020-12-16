@@ -31,16 +31,16 @@ class UserController {
     }
 
     if(!payload.email && !payload.password) {
-      next({ msg : 'email/password not null', status : 404});
+      next({ msg: 'email/password not null', status: 404 });
     } else {
       User.findOne({
         where: {email : payload.email}
       })
         .then(data => {
           if(!data) {
-            next({ msg : 'wrong email/password', status : 401});   
+            next({ msg: 'wrong email/password', status: 401 });   
           } else if(!comparePass(payload.password, data.dataValues.password)){
-            next({ msg : 'wrong email/password', status : 401});
+            next({ msg: 'wrong email/password', status: 401 });
           } else {
             const access_token = signToken({
               id: data.dataValues.id,
@@ -54,8 +54,8 @@ class UserController {
             });
           }
         })
-        .catch(err => {
-          next(err)
+        .catch(errors => {
+          next(errors)
         })
     }
     
@@ -82,6 +82,7 @@ class UserController {
 
   static update(req, res, next){
     const idUser = req.params.id;
+    
     const obj = {
       name: req.body.name,
       profile_picture: req.body.profile_picture
