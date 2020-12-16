@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1608091856047" clover="3.2.0">
-  <project timestamp="1608091856048" name="All files">
+<coverage generated="1608092882340" clover="3.2.0">
+  <project timestamp="1608092882340" name="All files">
     <metrics statements="294" coveredstatements="226" conditionals="37" coveredconditionals="27" methods="72" coveredmethods="45" elements="403" coveredelements="298" complexity="0" loc="294" ncloc="294" packages="6" files="23" classes="23"/>
     <package name="sign-io">
       <metrics statements="27" coveredstatements="16" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="0"/>
@@ -19,19 +19,19 @@
         <line num="16" count="5" type="stmt"/>
         <line num="17" count="5" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
         <line num="21" count="5" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
         <line num="49" count="5" type="stmt"/>
       </file>
     </package>
@@ -68,16 +68,16 @@
         <line num="1" count="5" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="49" count="5" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="46" count="5" type="stmt"/>
       </file>
       <file name="roomControl.js" path="D:\sanbercode\cmder\hactiv8\phase3\final\sign-io\controllers\roomControl.js">
         <metrics statements="31" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="10" coveredmethods="5"/>
@@ -86,7 +86,7 @@
         <line num="7" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="24" count="5" type="stmt"/>

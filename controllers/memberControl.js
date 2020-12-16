@@ -7,9 +7,8 @@ class MemberController {
       .then(data => {
         res.status(200).json(data);
       })
-      .catch(err => {
-        // res.status(500).json(err);
-        next(err);
+      .catch(errors => {
+        next(errors);
       })
   }
 
@@ -23,9 +22,8 @@ class MemberController {
       .then(data => {
         res.status(201).json(data);
       })
-      .catch(err => {
-        // res.status(500).json(err)
-        next(err);
+      .catch(errors => {
+        next(errors);
 
       })
   }
@@ -39,9 +37,8 @@ class MemberController {
       .then(data => {
         res.status(200).json({ msg : 'Delete Success'});
       })
-      .catch(err => {
-        // res.status(500).json({msg: err.errors[0].message})
-        next(err);
+      .catch(errors => {
+        next(errors);
       })
   }
 }
