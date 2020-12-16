@@ -12,7 +12,9 @@ class ChatController {
       .then(data => {
         res.status(201).json(data)
       })
-      .catch(err => next(err))
+      .catch(errors => {
+        next(errors)
+      })
   }
 }
 
