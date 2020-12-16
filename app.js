@@ -9,18 +9,28 @@ const port = process.env.PORT || 3000;
 const router = require("./routes");
 const cors = require("cors");
 
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const http = require('http');
+const socketIO = require('socket.io');
+
+const server = http.createServer(app);
+const io = socketIO(server);
 
 //body parser
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//real time web socket
+app.use(router);
+app.use(errorHandler);
+
+// io.on("connection", (socket) => {
+//   console.log("client connected on websocket");
+// });
+
+// real time web socket
 io.on('connection', (socket) => {
   console.log(socket.id, 'CONNECT CONNECT CONNECT')
-
+  
   socket.on('join', id => {
     socket.join(id)
   })
@@ -39,10 +49,7 @@ io.on('connection', (socket) => {
   });
 });
 
-app.use(router);
-app.use(errorHandler);
-
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`http://localhost:` + port);
 });
 
