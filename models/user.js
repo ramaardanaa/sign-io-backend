@@ -60,7 +60,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    profile_picture: DataTypes.STRING
+    profile_picture: DataTypes.STRING,
+    unique_code: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

@@ -25,18 +25,25 @@ class FriendController {
 
   static addFriend(req, res, next) {
     const idOwner = req.loginUser.id;
-    const obj = {
-      owner: idOwner,
-      contact: req.body.contact
+    let ContactId;
+    const option = {
+      unique_code: req.body.unique_code
     }
 
-    Friend.create(obj)
+    User.findOne(option)
+      .then(data3 => {
+        ContactId = data3.id
+        const obj = {
+          owner: idOwner,
+          contact: ContactId
+        }
+        return Friend.create(obj)
+      })
       .then(data => {
         const payload = {
-          owner: req.body.contact,
+          owner: ContactId,
           contact: idOwner
         }
-        console.log(payload)
         if (req.body.bug) {
           throw { msg: 'Internal server error', status: 500 }
         }

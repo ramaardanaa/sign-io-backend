@@ -5,11 +5,13 @@ const { User } = require('../models');
 class UserController {
 
   static register(req, res, next){
+    const code = '#' + Math.random().toString(36).substr(2, 8)
     const obj = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile_picture: `https://ui-avatars.com/api/?name=${req.body.name.trim()}&rounded=true&background=random`
+      profile_picture: `https://ui-avatars.com/api/?name=${req.body.name.trim()}&rounded=true&background=random`,
+      unique_code: code
     }
 
     User.create(obj)
@@ -50,7 +52,8 @@ class UserController {
               id: data.id,
               name: data.name,
               profile_picture: data.profile_picture,
-              access_token
+              access_token,
+              unique_code: data.unique_code
             });
           }
         })

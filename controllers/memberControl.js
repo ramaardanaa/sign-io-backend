@@ -1,4 +1,4 @@
-const { Member } = require('../models')
+const { Member, Room } = require('../models')
 
 class MemberController {
 
@@ -16,14 +16,21 @@ class MemberController {
   }
 
   static addMember(req, res, next){
-    const obj = {
-      UserId: req.body.UserId,
-      RoomId: req.body.RoomId
+    const option = {
+      where: {
+        code: req.body.code
+      }
     }
-
-    Member.create(obj)
+    Room.findOne(option)
       .then(data => {
-        res.status(201).json(data);
+        const obj = {
+          UserId: req.loginUser.id,
+          RoomId: data.id
+        }
+        return Member.create(obj)
+      })
+      .then(data2 => {
+        res.status(201).json(data2);
       })
       .catch(errors => {
         next(errors);
