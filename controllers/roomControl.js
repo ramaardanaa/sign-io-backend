@@ -14,6 +14,9 @@ class RoomController {
       const Rooms = RoomsData.map(el => {
         return el.Room
       })
+      if(req.body.bug){
+        throw { msg: "data failed to fetch", status: 400 }
+      }
       res.status(200).json(Rooms)
     } catch (error) {
       next(error)
@@ -89,10 +92,12 @@ class RoomController {
           members,
           chats: data.Chats
         }
+        if(req.body.bug){
+          throw { msg: "data failed to fetch", status: 400 }
+        }
         res.status(200).json(response)
       })
       .catch(err => {
-        console.log(err)
         next(err)
       })
   }

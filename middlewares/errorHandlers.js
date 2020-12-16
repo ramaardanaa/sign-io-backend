@@ -7,9 +7,6 @@ module.exports = (err, req, res, next) => {
       return e.message
     })
     msg = messages.join(', ')
-  } else if (err.name === 'SequelizeUniqueConstraintError') {
-    status = 400
-    msg = 'Email has already been taken'
   }
 
   res.status(status).json({ msg })

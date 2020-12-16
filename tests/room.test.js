@@ -54,6 +54,94 @@ describe('Test endpoint /rooms', () => {
         })
         .catch(err => console.log(err))
     })
+
+    it('Test get rooms invalid access_token', (done) => {
+      request(app)
+        .get('/rooms')
+        .set({
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjA4MTAwNjc5fQ.D5fGmhFRYQaocukwqucbkVmCoaeGihOyF7iFqJkHRWs'
+        })
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(401)
+          expect(body).toHaveProperty('msg', 'Authentication Failed')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+
+    it('Test get rooms data failed to fetch', (done) => {
+      request(app)
+        .get('/rooms')
+        .set({ access_token : token })
+        .send({
+          bug: 'test'
+        })
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(400)
+          expect(body).toHaveProperty('msg', 'data failed to fetch')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+  })
+
+  describe('Test endpoint GET findOne', () => {
+    it('Test get findOne rooms success', (done) => {
+      request(app)
+        .get(`/rooms/${RoomId}`)
+        .set({ access_token : token })
+        .then(response => {
+          const { body, status } = response
+          
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+    
+    it('Test get findOne rooms no access token', (done) => {
+      request(app)
+        .get(`/rooms/${RoomId}`)
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(401)
+          expect(body).toHaveProperty('msg', 'Authentication Failed')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+
+    it('Test get findOne rooms invalid access_token', (done) => {
+      request(app)
+        .get(`/rooms/${RoomId}`)
+        .set({
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjA4MTAwNjc5fQ.D5fGmhFRYQaocukwqucbkVmCoaeGihOyF7iFqJkHRWs'
+        })
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(401)
+          expect(body).toHaveProperty('msg', 'Authentication Failed')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+
+    it('Test get findOne rooms data failed to fetch', (done) => {
+      request(app)
+        .get(`/rooms/${RoomId}`)
+        .set({ access_token : token })
+        .send({
+          bug: 'test'
+        })
+        .then(response => {
+          const { body, status } = response
+          expect(status).toBe(400)
+          expect(body).toHaveProperty('msg', 'data failed to fetch')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
   })
 
   describe('Test endpoint POST', () => {
@@ -117,6 +205,21 @@ describe('Test endpoint /rooms', () => {
           const { body, status } = response
           expect(status).toBe(200)
           expect(body).toHaveProperty('msg', 'Room has been deleted')
+          done()
+        })
+        .catch(err => console.log(err))
+    })
+
+    it('Test delete rooms failed data null', (done) => {
+      request(app)
+        .delete(`/rooms/X`)
+        .set({
+          access_token: token
+        })
+        .then(response => {
+          const { body, status } = response;
+          expect(status).toBe(500)
+          expect(body).toHaveProperty('msg', 'internal server error')
           done()
         })
         .catch(err => console.log(err))

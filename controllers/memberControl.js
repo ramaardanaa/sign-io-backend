@@ -5,6 +5,9 @@ class MemberController {
   static findAll(req, res, next){
     Member.findAll()
       .then(data => {
+        if(req.body.bug){
+          throw { msg: "data null", status: 400 }
+        }
         res.status(200).json(data);
       })
       .catch(errors => {
@@ -24,7 +27,6 @@ class MemberController {
       })
       .catch(errors => {
         next(errors);
-
       })
   }
 
