@@ -81,7 +81,7 @@ class UserController {
   }
 
   static update(req, res, next){
-    const idUser = req.params.id;
+    const idUser = req.loginUser.id
     const obj = {
       name: req.body.name,
       profile_picture: req.body.profile_picture
@@ -89,7 +89,10 @@ class UserController {
 
     User.update(obj, { where: {'id': idUser}})
       .then(data => {
-        res.status(201).json(data)
+        res.status(200).json({
+          name: req.body.name,
+          profile_picture: req.body.profile_picture
+        })
       })
       .catch(err => {
         next(err)
