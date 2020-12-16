@@ -1,37 +1,53 @@
-const { Room } = require('../models')
+const { Room, Member, User, Chat } = require('../models')
 
 class RoomController {
 
-  static findAll(req, res, next){
-    Room.findAll()
-      .then(data => {
-        res.status(200).json(data);
+  static async findAll(req, res, next){
+    try {
+      const option = {
+        where: {
+          UserId: req.loginUser.id
+        },
+        include: [Room]
+      }
+      const RoomsData = await Member.findAll(option)
+      const Rooms = RoomsData.map(el => {
+        return el.Room
       })
-      .catch(err => {
-        next({msg: err.errors[0].message});
-        // next(err)
-      })
+      res.status(200).json(Rooms)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  static addRoom(req, res, next){
-    const idUser = req.loginUser.id;
-    const obj = {
-      name: req.body.name,
-      UserId: idUser
-    }
+  static async addRoom(req, res, next){
+    try {
+      const idUser = req.loginUser.id;
+      // create room
+      const code = Math.random().toString(36).substr(2, 8)
+      const obj = {
+        name: req.body.name,
+        UserId: idUser,
+        code
+      }
+      const newRoom = await Room.create(obj)
 
-    Room.create(obj)
-      .then(data => {
-        res.status(201).json({
-          id: data.id,
-          name: data.name,
-          UserId: data.UserId
-        })
+      // create member of the room
+      const memberData = {
+        RoomId: newRoom.id,
+        UserId: idUser
+      }
+      const newMember = await Member.create(memberData)  
+      
+      // response
+      res.status(201).json({
+        id: newRoom.id,
+        name: newRoom.name,
+        code: newRoom.code
       })
-      .catch(err => {
-        next({msg: err.errors[0].message});
-        // next(err)
-      })
+    } catch (error) {
+      next(error)
+    }
   }
 
   static deleteRoom(req, res, next) {
@@ -44,11 +60,41 @@ class RoomController {
         res.status(200).json({name : data.name, msg : 'Room has been deleted'});
       })
       .catch(err => {
-        next({msg: err.errors[0].message});
-        res.status(500).json({msg: err.errors[0].message});
-        // next(err)
+        next(err)
       })
+  }
 
+  static findOne(req, res, next) {
+    const idRoom = +req.params.id;
+    const option = {
+      where: {
+        id: idRoom
+      },
+      include: [{
+        model: Member,
+        include: [User]
+      },{
+        model: Chat,
+        include: [User]
+      }]
+    }
+    Room.findOne(option)
+      .then(data => {
+        const members = data.Members.map(member => {
+          return member.User
+        })
+        const response = {
+          id: data.id,
+          name: data.name,
+          members,
+          chats: data.Chats
+        }
+        res.status(200).json(response)
+      })
+      .catch(err => {
+        console.log(err)
+        next(err)
+      })
   }
 }
 

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Room.hasMany(models.Member)
       Room.belongsTo(models.User)
+      Room.hasMany(models.Chat)
     }
   };
   Room.init({
@@ -31,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+    code: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Room',
