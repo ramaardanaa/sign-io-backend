@@ -23,7 +23,6 @@ class RoomController {
   static async addRoom(req, res, next){
     try {
       const idUser = req.loginUser.id;
-
       // create room
       const code = Math.random().toString(36).substr(2, 8)
       const obj = {
