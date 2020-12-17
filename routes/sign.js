@@ -30,7 +30,7 @@ router.post("/", async (req, res, next) => {
     console.log(predictions);
     let result;
     let num = 0;
-    predictions?.forEach((value) => {
+    predictions.forEach((value) => {
       if (value.score >= 0 && value.score <= 1) {
         if (value.score > num) {
           num = value.score;

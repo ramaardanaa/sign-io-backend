@@ -16,7 +16,7 @@ const storage = unggah.s3({
 /* istanbul ignore next */
 const upload = unggah({
   limits: {
-    fileSize: 1e6 
+    fieldSize: 8 * 1024 * 1024
   },
   storage: storage 
 })
