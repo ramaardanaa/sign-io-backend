@@ -21,7 +21,7 @@ const upload = unggah({
   storage: storage 
 })
 
-const router = require('express').Router();
+const router = require("express").Router();
 
 router.post('/login', UserController.login);
 router.post('/register', UserController.register);

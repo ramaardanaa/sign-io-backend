@@ -21,22 +21,22 @@ class UserController {
           email: data.email, 
         });
       })
-      .catch(errors => {
+      .catch((errors) => {
         next(errors);
-      })
+      });
   }
 
-  static login(req, res, next){
+  static login(req, res, next) {
     const payload = {
       email: req.body.email,
-      password: req.body.password
-    }
+      password: req.body.password,
+    };
 
     if(!payload.email && !payload.password) {
       next({ msg: 'email/password not null', status: 404 });
     } else {
       User.findOne({
-        where: {email : payload.email}
+        where: { email: payload.email },
       })
         .then(data => {
           if(!data) {
@@ -68,8 +68,8 @@ class UserController {
     const idUser = req.loginUser.id
     const obj = {
       name: req.body.name,
-      profile_picture: req.body.profile_picture
-    }
+      profile_picture: req.body.profile_picture,
+    };
 
     User.update(obj, { where: {'id': idUser}})
       .then(data => {
@@ -84,4 +84,4 @@ class UserController {
   }
 }
 
-module.exports = UserController
+module.exports = UserController;
