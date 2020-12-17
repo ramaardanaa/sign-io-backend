@@ -2,6 +2,7 @@ const UserController = require('../controllers/userControl');
 const unggah = require('unggah')
 const authentication = require("../middlewares/authentication");
 
+/* istanbul ignore next */
 const storage = unggah.s3({
   endpoint: 's3.ap-southeast-1.amazonaws.com',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -12,6 +13,7 @@ const storage = unggah.s3({
   }
 })
 
+/* istanbul ignore next */
 const upload = unggah({
   limits: {
     fileSize: 1e6 
@@ -24,6 +26,7 @@ const router = require('express').Router();
 router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 router.put('/edit', authentication, UserController.update)
+/* istanbul ignore next */
 router.post('/upload-picture', upload.single('file'), (req, res, next) => {
   res.status(201).json({
     file: req.body.file

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const router = require("express").Router();
 const fs = require("fs");
 const speech = require("@google-cloud/speech");
@@ -14,7 +15,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const linear16 = require("linear16");
 const client = new speech.SpeechClient();
-
 router.post("/", upload.single("file"), async (req, res, next) => {
   const { filename } = req.file;
   const fileName = path.join(__dirname, `../data-temp/uploads/${filename}`);

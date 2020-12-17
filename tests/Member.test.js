@@ -5,6 +5,7 @@ let token;
 let MemberId;
 let UserId;
 let RoomId;
+let code;
 
 beforeAll((done) => {
   request(app)
@@ -24,7 +25,8 @@ beforeAll((done) => {
       })
     })
     .then(res => {
-      RoomId = res.body.id
+      RoomId = res.body.id;
+      code = res.body.code;
       done()
     })
     .catch(console.log)
@@ -85,8 +87,7 @@ describe('Test Endpoint POST /members', () => {
         access_token: token
       })
       .send({
-        UserId: UserId,
-        RoomId: RoomId
+        code: code
       })
       .then(res => {
         const { body, status } = res;

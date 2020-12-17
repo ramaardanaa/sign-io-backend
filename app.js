@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config();
 }
@@ -24,6 +25,7 @@ app.use(router);
 app.use(errorHandler);
 
 // real time web socket
+/* istanbul ignore next */
 io.on('connection', (socket) => {
   console.log(socket.id, 'CONNECT CONNECT CONNECT')
   
@@ -45,9 +47,9 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`http://localhost:` + port);
-});
+// server.listen(port, () => {
+//   console.log(`http://localhost:` + port);
+// });
 
 // app.listen(port, () => {
 //   console.log(`http://localhost:` + port);
