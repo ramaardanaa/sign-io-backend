@@ -48,6 +48,7 @@ class UserController {
               id: data.dataValues.id,
               email: data.dataValues.email
             })
+            console.log(data)
             res.status(200).json({
               id: data.id,
               name: data.name,
@@ -61,26 +62,6 @@ class UserController {
           next(errors)
         })
     }
-    
-    User.findOne({
-      where: {email : payload.email}
-    })
-      .then(data => {
-        if(!data) {  
-          throw { msg: 'wrong email/password', status: 401 }
-        } else if(!comparePass(payload.password, data.password)){
-          throw { msg: 'wrong email/password', status: 401 }
-        } else {
-          const access_token = signToken({
-            id: data.dataValues.id,
-            email: data.dataValues.email
-          })
-          res.status(200).json({ access_token : access_token, id: data.dataValues.id });
-        }
-      })
-      .catch(err => {
-        next(err)
-      })
   }
 
   static update(req, res, next){
