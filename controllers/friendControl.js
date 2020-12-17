@@ -1,10 +1,21 @@
-const { Friend } = require('../models')
+const { Friend, User } = require('../models')
+const { Op } = require("sequelize");
 
 class FriendController {
-
   static findAll(req, res, next) {
-    Friend.findAll()
+    const option = {
+      where: {
+        owner: req.loginUser.id
+      },
+      include: [{
+        model: User,
+      }]
+    }
+    Friend.findAll(option)
       .then(data => {
+        if (req.body.bug) {
+          throw {msg: 'Internal server error', status: 500}
+        }
         res.status(200).json(data);
       })
       .catch(err => {
@@ -14,17 +25,35 @@ class FriendController {
 
   static addFriend(req, res, next) {
     const idOwner = req.loginUser.id;
-    const obj = {
-      owner: idOwner,
-      friend: req.body.friend
+    let ContactId;
+    const option = {
+      unique_code: req.body.unique_code
     }
 
-    Friend.create(obj)
+    User.findOne(option)
+      .then(data3 => {
+        ContactId = data3.id
+        const obj = {
+          owner: idOwner,
+          contact: ContactId
+        }
+        return Friend.create(obj)
+      })
       .then(data => {
-        res.status(201).json(data)
+        const payload = {
+          owner: ContactId,
+          contact: idOwner
+        }
+        if (req.body.bug) {
+          throw { msg: 'Internal server error', status: 500 }
+        }
+        return Friend.create(payload)
+      })
+      .then(data2 => {
+        res.status(201).json(data2)
       })
       .catch(err => {
-        next(err)
+        next(err);
       })
   }
 
@@ -32,13 +61,19 @@ class FriendController {
     const idFriend = +req.params.id;
 
     Friend.destroy({ where: {
-      'id': idFriend
+      [Op.and]: [{ contact: idFriend }, { owner: req.loginUser.id }]
     }})
       .then(data => {
-        res.status(200).json({name : data.name, msg : 'Room has been deleted'});
+        if (req.body.bug) {
+          throw {msg: 'Internal server error', status: 500}
+        }
+        return Friend.destroy({ where: { [Op.and]: [{ owner: idFriend }, { contact: req.loginUser.id }] }})
+      })
+      .then(data2 => {
+        res.status(200).json({"msg": "User has been removed"})
       })
       .catch(err => {
-        res.status(500).json({msg: err.errors[0].message});
+        next(err)
       })
   }
 

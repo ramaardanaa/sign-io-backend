@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Member)
-      User.hasMany(models.Friend)
+      User.hasMany(models.Chat)
     }
   };
   User.init({
@@ -59,7 +59,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password is required'
         }
       }
-    }
+    },
+    profile_picture: DataTypes.STRING,
+    unique_code: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

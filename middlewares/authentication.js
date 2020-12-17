@@ -16,15 +16,13 @@ async function authentication (req, res, next) {
       })
 
       if(!user){
-        res.status(401).json({msg : 'Authentication Failed'});
-        // throw { msg : 'Authentication Failed', status : 401};
+        throw { msg : 'Authentication Failed', status : 401};
       } else {
         req.loginUser = decoded;
         next()
       }
     }
   } catch (error) {
-    console.log(error, 'error catch')
     next(error);
   }
 }

@@ -1,30 +1,39 @@
-const { Member } = require('../models')
+const { Member, Room } = require('../models')
 
 class MemberController {
 
   static findAll(req, res, next){
     Member.findAll()
       .then(data => {
+        if(req.body.bug){
+          throw { msg: "data null", status: 400 }
+        }
         res.status(200).json(data);
       })
-      .catch(err => {
-        res.status(500).json(err);
-        // next(err);
+      .catch(errors => {
+        next(errors);
       })
   }
 
   static addMember(req, res, next){
-    const obj = {
-      UserId: req.body.UserId,
-      RoomId: req.body.RoomId
+    const option = {
+      where: {
+        code: req.body.code
+      }
     }
-
-    Member.create(obj)
+    Room.findOne(option)
       .then(data => {
-        res.status(201).json(data)
+        const obj = {
+          UserId: req.loginUser.id,
+          RoomId: data.id
+        }
+        return Member.create(obj)
       })
-      .catch(err => {
-        res.status(500).json(err)
+      .then(data2 => {
+        res.status(201).json(data2);
+      })
+      .catch(errors => {
+        next(errors);
       })
   }
 
@@ -37,9 +46,8 @@ class MemberController {
       .then(data => {
         res.status(200).json({ msg : 'Delete Success'});
       })
-      .catch(err => {
-        res.status(500).json({msg: err.errors[0].message})
-        // next(err)
+      .catch(errors => {
+        next(errors);
       })
   }
 }
