@@ -32,6 +32,10 @@ io.on('connection', (socket) => {
   socket.on('join', id => {
     socket.join(id)
   })
+
+  socket.on('newJoin', id => {
+    io.in(id).emit('newMember')
+  })
   
   socket.on('sendMessage', ({id, name, message, createdAt}) => {
     io.in(id).emit('newMessage', {name, message, createdAt})
@@ -47,9 +51,9 @@ io.on('connection', (socket) => {
   });
 });
 
-// server.listen(port, () => {
-//   console.log(`http://localhost:` + port);
-// });
+server.listen(port, () => {
+  console.log(`http://localhost:` + port);
+});
 
 // app.listen(port, () => {
 //   console.log(`http://localhost:` + port);
